@@ -5,7 +5,7 @@
 
 COCOT51 is a column staggered keyboard with 51 keys and a trackball located at the center of the switch plate.
 
-* Keyboard Maintainer: [aki27](https://github.com/aki27kbd) [@aki27](https://twitter.com/aki2716110826)
+* Keyboard Maintainer: [aki27](https://github.com/aki27kbd) [@aki27](https://twitter.com/aki27kbd)
 * Hardware Supported: cocot51 PCB, ProMicro
 * Hardware Availability: https://aki27.booth.pm/
 
