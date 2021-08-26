@@ -39,7 +39,6 @@ enum custom_keycodes {
 
 #define LW_MHEN LT(1,KC_MHEN)  // lower
 #define RS_HENK LT(2,KC_HENK)  // raise
-#define LAL_DEL ALT_T(KC_DEL)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -48,33 +47,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                              KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
-      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                              KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_AMPR,
+      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                              KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,   KC_MS_BTN1,               KC_MS_BTN2,      KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_MINS,
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
-                        KC_LGUI, LAL_DEL, LW_MHEN,  KC_SPC,      KC_PGUP,  KC_MS_BTN3,   KC_PGDOWN,    KC_ENT, RS_HENK, KC_BSPC,  KC_DEL
+                        KC_LGUI, KC_LALT, LW_MHEN,  KC_SPC,      KC_PGUP,  KC_MS_BTN3,   KC_PGDOWN,    KC_ENT, RS_HENK, KC_BSPC,  KC_DEL
                                                     //`-----------------------'  `-----------------------'
     ),
     [1] = LAYOUT(
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
-      KC_ESC, KC_EXLM, KC_LBRC, KC_HASH,  KC_DLR, KC_PERC,                                             KC_EQL, KC_CIRC, KC_DQUO, KC_ASTR, KC_LPRN, KC_BSPC,
+       KC_ESC, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                                           KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
-       KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                           KC_RCBR, KC_PIPE, KC_RBRC, KC_BSLS, KC_QUOT,   KC_AT,
+       KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                           KC_LCBR, KC_RCBR, KC_LBRC, KC_RBRC, KC_COLN, KC_DQUO,
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
-      KC_LSFT, KC_LCBR, KC_PLUS, KC_RO,S(KC_JYEN), XXXXXXX,   KC_MS_BTN4,               KC_MS_BTN5,   KC_UNDS, KC_COLN,   KC_LT,   KC_GT, KC_QUES, S(KC_RO),
+      KC_LSFT,  KC_GRV, KC_TILD, KC_NUBS, KC_PIPE, XXXXXXX,   KC_MS_BTN4,               KC_MS_BTN5,    KC_EQL, KC_PLUS, KC_LABK, KC_RABK, KC_QUES, KC_UNDS,
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
-                        KC_LGUI, LAL_DEL, KC_TRNS,  KC_SPC,     RGB_RMOD,  KC_MS_BTN3,     RGB_MOD,    KC_ENT,   TT(3), KC_BSPC,  KC_DEL
+                        KC_LGUI, KC_LALT, KC_TRNS,  KC_SPC,      KC_PGUP,  KC_MS_BTN3,   KC_PGDOWN,    KC_ENT,   TT(3), KC_BSPC,  KC_DEL
                                                     //`-----------------------'  `-----------------------'
     ),
     [2] = LAYOUT(
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
        KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                              KC_6,    KC_7,    KC_8,    KC_9,   KC_0,  KC_BSPC,
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
-       KC_TAB,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                            KC_APP,   KC_UP,S(KC_RO), KC_UNDS, KC_DQUO, KC_COLN,
+       KC_TAB,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                           KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX, XXXXXXX,
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
-      KC_LSFT,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,   KC_MS_BTN4,               KC_MS_BTN5,   KC_LEFT, KC_DOWN, KC_RGHT,  KC_DOT, KC_SLSH, KC_MINS,
+      KC_LSFT,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,   KC_MS_BTN4,               KC_MS_BTN5,   XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
-                        KC_LGUI, LAL_DEL,   TT(3),  KC_SPC,      RGB_HUD,  KC_MS_BTN3,     RGB_HUI,    KC_ENT, KC_TRNS, KC_BSPC,  KC_DEL
+                        KC_LGUI, KC_LALT,   TT(3),  KC_SPC,      KC_PGUP,  KC_MS_BTN3,   KC_PGDOWN,    KC_ENT, KC_TRNS, KC_BSPC,  KC_DEL
                                                     //`-----------------------'  `-----------------------'
     ),
     [3] = LAYOUT(
@@ -85,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   KC_MS_BTN1,               KC_MS_BTN2,  RGB_RMOD,   RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,
   //|-------------------------------------------------------|                                       |-------------------------------------------------------|
-                        XXXXXXX, XXXXXXX, KC_TRNS, XXXXXXX,      KC_VOLD,     KC_MUTE,     KC_VOLU,   XXXXXXX,   KC_TRNS, XXXXXXX, XXXXXXX
+                        XXXXXXX, XXXXXXX, KC_TRNS, XXXXXXX,      KC_PGUP,  KC_MS_BTN3,   KC_PGDOWN,   XXXXXXX,   KC_TRNS, XXXXXXX, XXXXXXX
                                                     //`-----------------------'  `-----------------------'
     )
 };
@@ -142,25 +141,6 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     return true;
 }
 
-/*
-void encoder_update_user(uint8_t index, bool clockwise) {
-    keypos_t key;
-
-    if (index == 0) {
-        if (clockwise) {
-            key.row = 3;
-            key.col = 6;
-        } else {
-            key.row = 2;
-            key.col = 6;
-        }
-        uint8_t  layer   = layer_switch_get_layer(key);
-        uint16_t keycode = keymap_key_to_keycode(layer, key);
-
-        tap_code16(keycode);
-    }
-}
-*/
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   report_mouse_t currentReport = {};
