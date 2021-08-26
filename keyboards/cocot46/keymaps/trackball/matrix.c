@@ -195,7 +195,6 @@ static bool read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row)
     wait_us(30);
 
     // For each col...
-    // change MATRIX_COLS to MATRIX_COLS / 2
     for(uint8_t col_index = 0; col_index < MATRIX_COLS / 2; col_index++) {
 
         if (readPin(col_pins[col_index])) {
