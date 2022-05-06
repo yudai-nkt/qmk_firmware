@@ -15,6 +15,7 @@
  */
 #include QMK_KEYBOARD_H
 #include <stdio.h>
+#include <math.h>
 
 #include "paw3204.h"
 #include "pointing_device.h"
@@ -152,12 +153,13 @@ void matrix_scan_user(void) {
         read_paw3204(&stat, &x, &y);
 
         // 45-degree angle
-        int8_t degree = 45;
-        r_x =  + x * cos(degree) + y * sin(degree);
-        r_y =  - x * sin(degree) + y * cos(degree);
+        int8_t deg = 45;
+        double rad = deg * (M_PI / 180);
+        r_x =  + x * cos(rad) + y * sin(rad);
+        r_y =  - x * sin(rad) + y * cos(rad);
         // int8_t degree = -45;
-        // r_x =  - x * cos(degree) - y * sin(degree);
-        // r_y =  + x * sin(degree) - y * cos(degree);
+        // r_x =  - x * cos(rad) - y * sin(rad);
+        // r_y =  + x * sin(rad) - y * cos(rad);
         /* normal angle
         r_x = y;
         r_y = x;
