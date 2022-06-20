@@ -30,23 +30,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #ifndef COCOT_CPI_OPTIONS
-#    define COCOT_CPI_OPTIONS { 500, 750, 1000, 1250 }
+#    define COCOT_CPI_OPTIONS { 250, 500, 750, 1000, 1250 }
 #    ifndef COCOT_CPI_DEFAULT
-#       define COCOT_CPI_DEFAULT 3
+#       define COCOT_CPI_DEFAULT 4
 #    endif
 #endif
 #ifndef COCOT_CPI_DEFAULT
-#    define COCOT_CPI_DEFAULT 3
+#    define COCOT_CPI_DEFAULT 4
 #endif
 
 #ifndef COCOT_SCROLL_DIVIDERS
-#    define COCOT_SCROLL_DIVIDERS { 1, 2, 4, 8 }
+#    define COCOT_SCROLL_DIVIDERS { 1, 2, 3, 4, 5, 6 }
 #    ifndef COCOT_SCROLL_DIV_DEFAULT
-#       define COCOT_SCROLL_DIV_DEFAULT 3
+#       define COCOT_SCROLL_DIV_DEFAULT 4
 #    endif
 #endif
 #ifndef COCOT_SCROLL_DIV_DEFAULT
-#    define COCOT_SCROLL_DIV_DEFAULT 3
+#    define COCOT_SCROLL_DIV_DEFAULT 4
 #endif
 
 
@@ -74,6 +74,10 @@ uint16_t angle_array[] = COCOT_ROTATION_ANGLE;
 bool     BurstState        = false;  // init burst state for Trackball module
 uint16_t MotionStart       = 0;      // Timer for accel, 0 is resting state
 
+// Scroll Accumulation
+static int16_t h_acm       = 0;
+static int16_t v_acm       = 0;
+
 
 void pointing_device_init_kb(void) {
     // set the CPI.
@@ -83,25 +87,43 @@ void pointing_device_init_kb(void) {
 
 report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
 
-    double rad = angle_array[cocot_config.rotation_angle] * (M_PI / 180);
-    uint16_t x_rev =  + mouse_report.x * cos(rad) + mouse_report.y * sin(rad);
-    uint16_t y_rev =  - mouse_report.x * sin(rad) + mouse_report.y * cos(rad);
-
+    double rad = angle_array[cocot_config.rotation_angle] * (M_PI / 180) * -1;
+    int8_t x_rev =  + mouse_report.x * cos(rad) - mouse_report.y * sin(rad);
+    int8_t y_rev =  + mouse_report.x * sin(rad) + mouse_report.y * cos(rad);
+    
 
     if (cocot_get_scroll_mode()) {
-        x_rev = x_rev / scrl_div_array[cocot_config.scrl_div] * cocot_config.scrl_inv;
-        y_rev = -y_rev / scrl_div_array[cocot_config.scrl_div] * cocot_config.scrl_inv;
-        x_rev = convert_twoscomp(x_rev);
-        y_rev = convert_twoscomp(y_rev);
+        // accumulate scroll
+        h_acm += x_rev * cocot_config.scrl_inv;
+        v_acm += y_rev * cocot_config.scrl_inv * -1;
 
-        mouse_report.h = x_rev;
-        mouse_report.v = y_rev;
+        int8_t h_rev = h_acm >> scrl_div_array[cocot_config.scrl_div];
+        int8_t v_rev = v_acm >> scrl_div_array[cocot_config.scrl_div];
+
+        // clear accumulated scroll on assignment
+
+        if (h_rev != 0) {
+            if (mouse_report.h + h_rev > 127) {
+                h_rev = 127 - mouse_report.h;
+            } else if (mouse_report.h + h_rev < -127) {
+                h_rev = -127 - mouse_report.h;
+            }
+            mouse_report.h += h_rev;
+            h_acm -= h_rev << scrl_div_array[cocot_config.scrl_div];
+        }
+        if (v_rev != 0) {
+            if (mouse_report.v + v_rev > 127) {
+                v_rev = 127 - mouse_report.v;
+            } else if (mouse_report.v + v_rev < -127) {
+                v_rev = -127 - mouse_report.v;
+            }
+            mouse_report.v += v_rev;
+            v_acm -= v_rev << scrl_div_array[cocot_config.scrl_div];
+        }
 
         mouse_report.x = 0;
         mouse_report.y = 0;
     } else {
-        x_rev = convert_twoscomp(x_rev);
-        y_rev = convert_twoscomp(y_rev);
         mouse_report.x = x_rev;
         mouse_report.y = y_rev;
     }
@@ -226,10 +248,10 @@ void oled_write_layer_state(void) {
     int angle = angle_array[cocot_config.rotation_angle];
     
     char buf1[5];
-    char buf2[2];
+    char buf2[3];
     char buf3[4];
     snprintf(buf1, 5, "%4d", cpi);
-    snprintf(buf2, 2, "%1d", scroll_div);
+    snprintf(buf2, 3, "%2d", scroll_div);
     snprintf(buf3, 4, "%3d", angle);
 
     switch (get_highest_layer(layer_state | default_layer_state)) {
