@@ -90,7 +90,6 @@ report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
     double rad = angle_array[cocot_config.rotation_angle] * (M_PI / 180) * -1;
     int8_t x_rev =  + mouse_report.x * cos(rad) - mouse_report.y * sin(rad);
     int8_t y_rev =  + mouse_report.x * sin(rad) + mouse_report.y * cos(rad);
-    
 
     if (cocot_get_scroll_mode()) {
         // accumulate scroll
