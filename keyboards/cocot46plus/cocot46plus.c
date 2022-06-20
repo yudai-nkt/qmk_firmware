@@ -36,13 +36,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    endif
 #endif
 #ifndef COCOT_CPI_DEFAULT
-#    define COCOT_CPI_DEFAULT 4
-#endif
-
-#ifndef COCOT_SCROLL_DIVIDERS
+#    define COCOT_CPI_DEFAULT 4<<<<<<< HEAD
 #    define COCOT_SCROLL_DIVIDERS { 1, 2, 3, 4, 5, 6 }
-#    ifndef COCOT_SCROLL_DIV_DEFAULT
-#       define COCOT_SCROLL_DIV_DEFAULT 4
+=======
+#    define COCOT_SCROLL_DIVIDE      define COCOT_SCROLL_DIV_DEFAULT 4
 #    endif
 #endif
 #ifndef COCOT_SCROLL_DIV_DEFAULT
@@ -90,7 +87,6 @@ report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
     double rad = angle_array[cocot_config.rotation_angle] * (M_PI / 180) * -1;
     int8_t x_rev =  + mouse_report.x * cos(rad) - mouse_report.y * sin(rad);
     int8_t y_rev =  + mouse_report.x * sin(rad) + mouse_report.y * cos(rad);
-    
 
     if (cocot_get_scroll_mode()) {
         // accumulate scroll
@@ -117,6 +113,9 @@ report_mouse_t pointing_device_task_kb(report_mouse_t mouse_report) {
             } else if (mouse_report.v + v_rev < -127) {
                 v_rev = -127 - mouse_report.v;
             }
+            mouse_report.v += v_rev;
+            v_acm -= v_rev << scrl_div_array[cocot_config.scrl_div];
+          }
             mouse_report.v += v_rev;
             v_acm -= v_rev << scrl_div_array[cocot_config.scrl_div];
         }
