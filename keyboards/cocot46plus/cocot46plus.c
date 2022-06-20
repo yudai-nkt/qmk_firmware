@@ -145,8 +145,8 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
             extern void register_button(bool, enum mouse_buttons);
             register_button(record->event.pressed, MOUSE_BTN_MASK(keycode - KC_MS_BTN1));
             return false;
-#endif
         }
+#endif
 
     }
 
