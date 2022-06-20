@@ -48,8 +48,11 @@ typedef union {
         uint8_t rotation_angle;
         int8_t scrl_inv;
         bool scrl_mode;
+        report_mouse_t last_mouse;
     };
 } cocot_config_t;
+
+
 
 extern cocot_config_t cocot_config;
 
