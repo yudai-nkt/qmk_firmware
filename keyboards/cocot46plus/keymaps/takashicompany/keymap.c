@@ -160,6 +160,15 @@ int sat_fst = -1;
 int val_fst = -1;
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+
+    if (!rgblight_is_enabled())
+    {
+        rgblight_sethsv_range(0, 0, 0, 0, 12);
+        rgblight_set_effect_range(0, 12);
+        rgblight_set();
+        return state;
+    }
+
     hue_fst = rgblight_get_hue();
     sat_fst = rgblight_get_sat();
     val_fst = rgblight_get_val();
@@ -169,12 +178,12 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             rgblight_sethsv_range(HSV_BLUE, 0, 2);
             break;
         default:
-            rgblight_sethsv_range( 0, 0, 0, 0, 2);
             rgblight_sethsv_range(hue_fst, sat_fst, val_fst, 0, 2);
             break;
     }
-    rgblight_set_effect_range( 2, 10);
-  return state;
+
+    rgblight_set_effect_range(2, 10);
+    return state;
 };
 
 
