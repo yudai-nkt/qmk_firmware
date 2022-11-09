@@ -26,6 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MANUFACTURER aki27
 #define PRODUCT      cocot46plus
 
+/* VIA */
+#define DYNAMIC_KEYMAP_LAYER_COUNT 7
+
 /* key matrix size */
 #define MATRIX_ROWS 10
 #define MATRIX_COLS 6
@@ -43,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #undef LOCKING_RESYNC_ENABLE
 
 /* Limit the maximum layer number to 8 */
-#define LAYER_STATE_8BIT
+// #define LAYER_STATE_8BIT
 
 /* Rotary encoder */
 #define ENCODERS_PAD_A { D3 }

@@ -25,7 +25,10 @@ enum layer_number {
     _BASE = 0,
     _LOWER = 1,
     _RAISE = 2,
-    _TRACKBALL = 3
+    _TRACKBALL = 3,
+    _Layer4 = 4,
+    _Layer5 = 5,
+    _Layer6 = 6
 };
 
 
@@ -91,6 +94,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                         KC_LGUI, DEL_ALT, KC_TRNS,  KC_SPC,   KC_MS_BTN1,             KC_MS_BTN2,  KC_ENT, RS_HENK, KC_BSPC,  KC_ESC,
                                                                  KC_PGUP, KC_MS_BTN3,  KC_PGDOWN, XXXXXXX, XXXXXXX, XXXXXXX
                                                             //`--------------'  `--------------'
+    ),
+  [_Layer4] = LAYOUT(
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+                        XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,             XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,
+                                                                 XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+                                                            //`--------------'  `--------------'
+    ),
+  [_Layer5] = LAYOUT(
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+                        XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,             XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,
+                                                                 XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+                                                            //`--------------'  `--------------'
+    ),
+  [_Layer6] = LAYOUT(
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+                        XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,             XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,
+                                                                 XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+                                                            //`--------------'  `--------------'
     )
 };
 
@@ -153,13 +192,25 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         rgblight_sethsv_range(HSV_GREEN, 0, 2);
         cocot_set_scroll_mode(false);
         break;
+    case _Layer4:
+        rgblight_sethsv_range(HSV_YELLOW, 0, 2);
+        cocot_set_scroll_mode(false);
+        break;
+    case _Layer5:
+        rgblight_sethsv_range(HSV_CYAN, 0, 2);
+        cocot_set_scroll_mode(false);
+        break;
+    case _Layer6:
+        rgblight_sethsv_range(HSV_ORANGE, 0, 2);
+        cocot_set_scroll_mode(false);
+        break;
     default:
         rgblight_sethsv_range( 0, 0, 0, 0, 2);
         cocot_set_scroll_mode(false);
         break;
     }
     rgblight_set_effect_range( 2, 10);
-  return state;
+      return state;
 };
 
 
