@@ -1,16 +1,13 @@
 /*
-Copyright 2022 aki27
-
+Copyright 2022 takashicompany
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 2 of the License, or
 (at your option) any later version.
-
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -19,14 +16,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include "quantum.h"
 
-#define LW_LNG2 KC_LANG2//LT(1,KC_LANG2)  // lower
-#define RS_LNG1 KC_LANG1//LT(2,KC_LANG1)  // raise
-#define DEL_ALT KC_DEL//ALT_T(KC_DEL)
-//#define SPC_SFT LSFT_T(KC_SPC)
-#define MS_BTN1 KC_MS_BTN1
-#define MS_BTN2 KC_MS_BTN2
-#define MS_BTN3 KC_MS_BTN3
+// Defines names for use in layer keycodes and the keymap
+enum layer_number {
+    _BASE = 0,
+    _LOWER = 1,
+    _RAISE = 2,
+    _MOUSE = 3
+};
 
+
+enum custom_keycodes {
+    KC_MY_BTN1 = SCRL_IN + 1,
+    KC_MY_BTN2,
+    KC_MY_BTN3,
+    KC_MY_SCR,
+};
 
 
 enum click_state {
@@ -41,9 +45,9 @@ enum click_state state;     // 現在のクリック入力受付の状態 Curren
 uint16_t click_timer;       // タイマー。状態に応じて時間で判定する。 Timer. Time to determine the state of the system.
 
 uint16_t to_clickable_time = 100;   // この秒数(千分の一秒)、WAITING状態ならクリックレイヤーが有効になる。  For this number of seconds (milliseconds), if in WAITING state, the click layer is activated.
-uint16_t to_reset_time = 800; // この秒数(千分の一秒)、CLICKABLE状態ならクリックレイヤーが無効になる。 For this number of seconds (milliseconds), the click layer is disabled if in CLICKABLE state.
+uint16_t to_reset_time = 500; // この秒数(千分の一秒)、CLICKABLE状態ならクリックレイヤーが無効になる。 For this number of seconds (milliseconds), the click layer is disabled if in CLICKABLE state.
 
-const uint16_t click_layer = 4;   // マウス入力が可能になった際に有効になるレイヤー。Layers enabled when mouse input is enabled
+const uint16_t click_layer = 3;   // マウス入力が可能になった際に有効になるレイヤー。Layers enabled when mouse input is enabled
 
 int16_t scroll_v_mouse_interval_counter;   // 垂直スクロールの入力をカウントする。　Counting Vertical Scroll Inputs
 int16_t scroll_h_mouse_interval_counter;   // 水平スクロールの入力をカウントする。  Counts horizontal scrolling inputs.
@@ -58,65 +62,70 @@ int16_t mouse_move_count_ratio = 5;     // ポインターの動きを再生す�
 
 
 
+#define LW_MHEN LT(1,KC_MHEN)  // lower
+#define RS_HENK LT(2,KC_HENK)  // raise
+#define DEL_ALT ALT_T(KC_DEL)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
-    [0] = LAYOUT(
-        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,             KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
-        KC_A,    KC_S,    KC_D,    KC_F,    KC_G,             KC_H,    KC_J,    KC_K,    KC_L,    KC_MINS,
-        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                 KC_PGUP, DEL_ALT, LW_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  RS_LNG1, KC_BSPC, KC_PGDOWN
+  [_BASE] = LAYOUT(
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                          KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                          KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                                          KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_MINS,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+                        KC_LGUI, DEL_ALT,   LW_MHEN,  KC_SPC, KC_MS_BTN1,             KC_MS_BTN2,  KC_ENT, RS_HENK, KC_BSPC,  KC_ESC,
+                                                                 KC_PGUP, KC_MS_BTN3,  KC_PGDOWN, XXXXXXX, XXXXXXX, XXXXXXX
+                                                            //`--------------'  `--------------'
     ),
-    [1] = LAYOUT(
-        KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,          KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          KC_H,    KC_J,    KC_K,    KC_L,    KC_MINS,
-        KC_GRV,  KC_TILD, KC_NUBS, KC_PIPE, XXXXXXX,          KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                 KC_PGUP, DEL_ALT, LW_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  RS_LNG1, KC_BSPC, KC_PGDOWN
+  [_LOWER] = LAYOUT(
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+       KC_ESC, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                                       KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       KC_LCBR, KC_RCBR, KC_LBRC, KC_RBRC, KC_COLN, KC_DQUO,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      KC_LSFT,  KC_GRV, KC_TILD, KC_NUBS, KC_PIPE, XXXXXXX,                                        KC_EQL, KC_PLUS, KC_LABK, KC_RABK, KC_QUES, KC_UNDS,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+                        KC_LGUI, DEL_ALT, KC_TRNS,  KC_SPC,   KC_MS_BTN4,             KC_MS_BTN5,  KC_ENT,   TT(3), KC_BSPC,  KC_ESC,
+                                                                 KC_PGUP, KC_MS_BTN3,  KC_PGDOWN, XXXXXXX, XXXXXXX, XXXXXXX
+                                                            //`--------------'  `--------------'
     ),
-    [2] = LAYOUT(
-        KC_1,    KC_2,    KC_3,    KC_4,    KC_5,             KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,            KC_APP,  KC_UP,   KC_EQL,  KC_PLUS, KC_MINS,
-        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,           KC_LEFT, KC_DOWN, KC_RGHT, KC_DOT,  KC_SLSH,
-                 KC_PGUP, DEL_ALT, LW_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  RS_LNG1, KC_BSPC, KC_PGDOWN
+  [_RAISE] = LAYOUT(
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+       KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                          KC_6,    KC_7,    KC_8,    KC_9,   KC_0,  KC_BSPC,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      KC_LCTL,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                                        KC_APP,   KC_UP,S(KC_RO), KC_UNDS, KC_DQUO, KC_COLN,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      KC_LSFT,   KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,                                       KC_LEFT, KC_DOWN, KC_RGHT,  KC_DOT, KC_SLSH, KC_MINS,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+                        KC_LGUI, DEL_ALT,   TT(3),  KC_SPC,   KC_MS_BTN4,             KC_MS_BTN5,  KC_ENT, KC_TRNS, KC_BSPC,  KC_ESC,
+                                                                 KC_PGUP, KC_MS_BTN3,  KC_PGDOWN, XXXXXXX, XXXXXXX, XXXXXXX
+                                                            //`--------------'  `--------------'
     ),
-    [3] = LAYOUT(
-        KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,             KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
-        KC_A,    KC_S,    KC_D,    KC_F,    KC_G,             KC_H,    KC_J,    KC_K,    KC_L,    KC_MINS,
-        KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,
-                 KC_PGUP, DEL_ALT, LW_LNG2, KC_SPC,  MS_BTN1, KC_ENT,  RS_LNG1, KC_BSPC, KC_PGDOWN
-    ),
-    [4] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          MS_BTN3, MS_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MS_BTN1, SCRL_MO, XXXXXXX, XXXXXXX
-    ),
-    [5] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [6] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    ),
-    [7] = LAYOUT(
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                 XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX    )
+  [_MOUSE] = LAYOUT(
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,                                       SCRL_TO,  CPI_SW, SCRL_SW, ROT_L15, ROT_R15, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, RGB_VAI, RGB_SAI, RGB_HUI, RGB_MOD,                                       SCRL_MO, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+      XXXXXXX, XXXXXXX, RGB_VAD, RGB_SAD, RGB_HUD,RGB_RMOD,                                       SCRL_IN, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
+                        KC_LGUI, DEL_ALT, KC_TRNS,  KC_SPC,   KC_MS_BTN1,             KC_MS_BTN2,  KC_ENT, RS_HENK, KC_BSPC,  KC_ESC,
+                                                                 KC_PGUP, KC_MS_BTN3,  KC_PGDOWN, XXXXXXX, XXXXXXX, XXXXXXX
+                                                            //`--------------'  `--------------'
+    )
 };
 
 
 keyevent_t encoder1_ccw = {
-    .key = (keypos_t){.row = 3, .col = 0},
+    .key = (keypos_t){.row = 4, .col = 2},
     .pressed = false
 };
 
 keyevent_t encoder1_cw = {
-    .key = (keypos_t){.row = 3, .col = 9},
+    .key = (keypos_t){.row = 4, .col = 5},
     .pressed = false
 };
 
@@ -136,6 +145,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     return true;
 }
 
+
 void matrix_scan_user(void) {
 
     if (IS_PRESSED(encoder1_ccw)) {
@@ -152,82 +162,59 @@ void matrix_scan_user(void) {
 
 }
 
+int hue_fst = -1;
+int sat_fst = -1;
+int val_fst = -1;
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+
+    if (!rgblight_is_enabled())
+    {
+        rgblight_sethsv_range(0, 0, 0, 0, 12);
+        rgblight_set_effect_range(0, 12);
+        rgblight_set();
+        return state;
+    }
+
+    hue_fst = rgblight_get_hue();
+    sat_fst = rgblight_get_sat();
+    val_fst = rgblight_get_val();
+
     switch (get_highest_layer(state)) {
-    case 1:
-        //rgblight_sethsv_range(HSV_YELLOW, 0, 9);
-        cocot_set_scroll_mode(true);
-        break;
-    case 2:
-        //rgblight_sethsv_range(HSV_GREEN, 0, 9);
-        cocot_set_scroll_mode(true);
-        break;
-    case 3:
-        //rgblight_sethsv_range(HSV_CYAN, 0, 9);
-        cocot_set_scroll_mode(false);
-        break;
-    case 4:
-        //rgblight_sethsv_range(HSV_AZURE, 0, 9);
-        cocot_set_scroll_mode(false);
-        break;
-    case 5:
-        //rgblight_sethsv_range(HSV_BLUE, 0, 9);
-        cocot_set_scroll_mode(false);
-        break;
-    case 6:
-        //rgblight_sethsv_range(HSV_MAGENTA, 0, 9);
-        cocot_set_scroll_mode(false);
-        break;
-    case 7:
-        //rgblight_sethsv_range(HSV_MAGENTA, 0, 9);
-        cocot_set_scroll_mode(false);
-        break;
-    default:
-        //rgblight_sethsv_range(HSV_RED, 0, 9);
-        cocot_set_scroll_mode(false);
-        break;
+        case click_layer:
+            rgblight_sethsv_range(HSV_GOLD, 0, 2);
+            cocot_set_scroll_mode(false);
+            break;
+        case _LOWER:
+            rgblight_sethsv_range(HSV_CYAN, 0, 2);
+            cocot_set_scroll_mode(true);
+            break;
+        case _RAISE:
+            rgblight_sethsv_range(HSV_MAGENTA, 0, 2);
+            cocot_set_scroll_mode(true);
+            break;
+        default:
+            rgblight_sethsv_range( 0, 0, 0, 0, 2);
+            cocot_set_scroll_mode(false);
+            break;
     }
-    //rgblight_set_effect_range( 9, 36);
-  return state;
+
+    rgblight_set_effect_range(2, 10);
+    return state;
 };
 
 
-#ifdef RGB_MATRIX_ENABLE
-
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) { 
-    int is_layer = get_highest_layer(layer_state|default_layer_state);  
-    HSV hsv = {0, 255, rgblight_get_val()};
-    if (is_layer == 1) {
-      hsv.h = 128; //CYAN
-    } else if (is_layer == 2)  {
-      hsv.h = 85; //GREEN
-    } else if (is_layer == 3)  {
-      hsv.h = 43; //YELLOW
-    } else if (is_layer == 4)  {
-      hsv.h = 11; //CORAL
-    } else if (is_layer == 5)  {
-      hsv.h = 0; //RED
-    } else if (is_layer == 6)  {
-      hsv.h = 64; //CHARTREUSE
-    } else {
-      hsv.h = 191; //PURPLE
-    }
-    RGB rgb = hsv_to_rgb(hsv);
- 
-    for (uint8_t i = led_min; i <= led_max; i++) {
-        if (HAS_FLAGS(g_led_config.flags[i], 0x02)) {
-          rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
-        }
-    }
-};
-
+#ifdef OLED_ENABLE
+bool oled_task_user(void) {
+    render_logo();
+    oled_write_layer_state();
+    return false;
+}
 #endif
 
-
-
-
-
+//////////////////////
+/// miniZoneの実装 ///
+////////////////////
 
 // クリック用のレイヤーを有効にする。　Enable layers for clicks
 void enable_click_layer(void) {
@@ -270,21 +257,24 @@ bool is_clickable_mode(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     
     switch (keycode) {
-        case KC_MS_BTN1:
-        case KC_MS_BTN2:
-        case KC_MS_BTN3:
-        case KC_MS_BTN4:
-        case KC_MS_BTN5:
+        case KC_MY_BTN1:
+        case KC_MY_BTN2:
+        case KC_MY_BTN3:
         {
             report_mouse_t currentReport = pointing_device_get_report();
 
-            uint8_t btn = 1 << (keycode - KC_MS_BTN1);
+            // どこのビットを対象にするか。 Which bits are to be targeted?
+            uint8_t btn = 1 << (keycode - KC_MY_BTN1);
             
             if (record->event.pressed) {
+                // ビットORは演算子の左辺と右辺の同じ位置にあるビットを比較して、両方のビットのどちらかが「1」の場合に「1」にします。
+                // Bit OR compares bits in the same position on the left and right sides of the operator and sets them to "1" if either of both bits is "1".
                 currentReport.buttons |= btn;
                 state = CLICKING;
                 after_click_lock_movement = 30;
             } else {
+                // ビットANDは演算子の左辺と右辺の同じ位置にあるビットを比較して、両方のビットが共に「1」の場合だけ「1」にします。
+                // Bit AND compares the bits in the same position on the left and right sides of the operator and sets them to "1" only if both bits are "1" together.
                 currentReport.buttons &= ~btn;
                 enable_click_layer();
             }
@@ -293,19 +283,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             pointing_device_send();
             return false;
         }
-        case SCRL_MO:
+
+        case KC_MY_SCR:
             if (record->event.pressed) {
                 state = SCROLLING;
             } else {
                 enable_click_layer();   // スクロールキーを離した時に再度クリックレイヤーを有効にする。 Enable click layer again when the scroll key is released.
             }
-            return false;
-        /*
-        default:
+         return false;
+
+         default:
             if  (record->event.pressed) {
                 disable_click_layer();
             }
-        */
+        
     }
    
     return true;
@@ -420,5 +411,3 @@ report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
 
     return mouse_report;
 }
-
-

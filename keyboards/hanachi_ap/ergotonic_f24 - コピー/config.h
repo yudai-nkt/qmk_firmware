@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* key matrix size */
 #define MATRIX_ROWS 8
-#define MATRIX_COLS 10
+#define MATRIX_COLS 8
 
 /*
  * Keyboard Matrix Assignments
@@ -41,8 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 #define MATRIX_ROW_PINS { F7, B1, B3, B2}
-#define MATRIX_COL_PINS { D1, D0, D4, C6, D7, E6, B4, F6, NO_PIN, NO_PIN }
-#define MATRIX_COL_PINS_RIGHT { D1, D0, D4, C6, D7, E6, B4, F6, F5, F4 }
+#define MATRIX_COL_PINS { D1, D0, D4, C6, D7, E6, B4, F6 }
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL */
@@ -147,8 +146,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_ONESHOT
 
 /* disable these deprecated features by default */
-//#define NO_ACTION_MACRO
-//#define NO_ACTION_FUNCTION
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION
 
 /* Bootmagic Lite key configuration */
 //#define BOOTMAGIC_LITE_ROW 0

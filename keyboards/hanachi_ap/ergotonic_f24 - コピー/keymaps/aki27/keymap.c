@@ -47,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	KC_TAB,    KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                     KC_H,   KC_J,   KC_K,   KC_L,   KC_SCLN,  KC_QUOT,
 	KC_LSFT,   KC_Z,   KC_X,   KC_C,   KC_V,    KC_B,  KC_DEL,   KC_LGUI,KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,  KC_SLSH,
     KC_LALT,                   KC_LEFT,KC_RIGHT,KC_SPC,KC_LCTL,  KC_BSPC,KC_ENT, KC_DOWN, KC_UP,                    KC_ENT,
-     KC_A, KC_B,  KC_D, KC_E, KC_F,               KC_G, KC_H, KC_I, KC_J, KC_K , KC_L, KC_M
+     KC_A, KC_B,                         KC_D, KC_E, KC_F,                               KC_G, KC_H, KC_I,                  KC_J, KC_K 
     )    ,
 
 
@@ -56,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	KC_TAB,    KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                     KC_H,   KC_J,   KC_K,   KC_L,   KC_SCLN,  KC_QUOT,
 	KC_LSFT,   KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,  KC_DEL,    KC_LGUI,KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH, KC_SLSH,
     KC_LGUI,                   KC_LEFT,KC_RIGHT,KC_SPC,KC_LCTL,  KC_BSPC,KC_ENT, KC_DOWN, KC_UP,                      KC_ENT,
-     KC_A, KC_B,  KC_D, KC_E, KC_F,               KC_G, KC_H, KC_I, KC_J, KC_K , KC_L, KC_M
+     KC_A, KC_B,  KC_D, KC_E, KC_F,               KC_G, KC_H, KC_I, KC_J, KC_K 
     )    ,
 
 
@@ -65,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	KC_TAB,    KC_A,   KC_S,   KC_D,   KC_F,   KC_G,                     KC_H,   KC_J,   KC_K,   KC_L,   KC_SCLN,  KC_QUOT,
 	KC_LSFT,   KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,  KC_DEL,    KC_LGUI,KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH, KC_SLSH,
     KC_LGUI,                   KC_LEFT,KC_RIGHT,KC_SPC,KC_LCTL,  KC_BSPC,KC_ENT, KC_DOWN, KC_UP,                      KC_ENT,
-     KC_A, KC_B,  KC_D, KC_E, KC_F,               KC_G, KC_H, KC_I, KC_J, KC_K , KC_L, KC_M
+     KC_A, KC_B,  KC_D, KC_E, KC_F,               KC_G, KC_H, KC_I, KC_J, KC_K 
     )    ,
 
 
@@ -74,7 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	XXXXXXX,   XXXXXXX,RGB_VAI,RGB_SAI,RGB_HUI,RGB_MOD,                  SCRL_MO,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX, XXXXXXX,
 	XXXXXXX,   XXXXXXX,RGB_VAD,RGB_SAD,RGB_HUD,RGB_RMOD,KC_DEL, KC_LGUI, SCRL_IN,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX, XXXXXXX,
     KC_LGUI,                   KC_LEFT,KC_RIGHT,KC_SPC,KC_LCTL,  KC_BSPC,KC_ENT, KC_DOWN, KC_UP,                      KC_ENT,
-     KC_A, KC_B,  KC_D, KC_E, KC_F,               KC_G, KC_H, KC_I, KC_J, KC_K , KC_L, KC_M
+     KC_A, KC_B,  KC_D, KC_E, KC_F,               KC_G, KC_H, KC_I, KC_J, KC_K 
     )    
 
 

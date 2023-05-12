@@ -73,6 +73,7 @@ static int16_t v_acm       = 0;
 void pointing_device_init_kb(void) {
     // set the CPI.
     pointing_device_set_cpi(cpi_array[cocot_config.cpi_idx]);
+    adns5050_write_reg(0x22, 0b10000 | 0x80);
 }
 
 
@@ -194,6 +195,7 @@ void eeconfig_init_kb(void) {
     cocot_config.scrl_mode = false;
     eeconfig_update_kb(cocot_config.raw);
     eeconfig_init_user();
+    adns5050_write_reg(0x22, 0b10000 | 0x80);
 }
 
 
