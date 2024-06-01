@@ -1,0 +1,10 @@
+{
+  "keyboard_name": "cocot46plus",
+  "manufacturer": "aki27",
+  "maintainer": "markstos",
+  "usb": {
+    "device_version": "1.0.0",
+    "pid": "0x0003",
+    "vid": "0x1727"
+  }
+}
