@@ -69,13 +69,13 @@ enum cocot_keycodes {
 
 };
 
-#define CPI_SW USER00
-#define SCRL_SW USER01
-#define ROT_R15 USER02
-#define ROT_L15 USER03
-#define SCRL_MO USER04
-#define SCRL_TO USER05
-#define SCRL_IN USER06
+#define CPI_SW QK_USER_0
+#define SCRL_SW QK_USER_1
+#define ROT_R15 QK_USER_2
+#define ROT_L15 QK_USER_3
+#define SCRL_MO QK_USER_4
+#define SCRL_TO QK_USER_5
+#define SCRL_IN QK_USER_6
 
 bool encoder_update_user(uint8_t index, bool clockwise);
 bool encoder_update_kb(uint8_t index, bool clockwise);

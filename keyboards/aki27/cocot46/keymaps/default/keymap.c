@@ -31,8 +31,8 @@ enum layer_number {
 };
 
 
-#define LW_MHEN LT(1,KC_MHEN)  // lower
-#define RS_HENK LT(2,KC_HENK)  // raise
+#define LW_MHEN LT(1,KC_INT5)  // lower
+#define RS_HENK LT(2,KC_INT4)  // raise
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {

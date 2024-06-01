@@ -39,8 +39,8 @@ enum custom_keycodes {
 };
 
 
-#define KC_L_MHEN LT(1,KC_MHEN)  // lower
-#define KC_R_HENK LT(2,KC_HENK)  // raise
+#define KC_L_MHEN LT(1,KC_INT5)  // lower
+#define KC_R_HENK LT(2,KC_INT4)  // raise
 
 
 

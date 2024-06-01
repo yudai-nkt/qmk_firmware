@@ -62,8 +62,8 @@ int16_t mouse_move_count_ratio = 5;     // ポインターの動きを再生す�
 
 
 
-#define LW_MHEN LT(1,KC_MHEN)  // lower
-#define RS_HENK LT(2,KC_HENK)  // raise
+#define LW_MHEN LT(1,KC_INT5)  // lower
+#define RS_HENK LT(2,KC_INT4)  // raise
 #define DEL_ALT ALT_T(KC_DEL)
 
 
