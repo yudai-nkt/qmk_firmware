@@ -162,13 +162,13 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 
 void matrix_scan_user(void) {
 
-    if (IS_PRESSED(encoder1_ccw)) {
+    if (encoder1_ccw.pressed) {
         encoder1_ccw.pressed = false;
         encoder1_ccw.time = (timer_read() | 1);
         action_exec(encoder1_ccw);
     }
 
-    if (IS_PRESSED(encoder1_cw)) {
+    if (encoder1_cw.pressed) {
         encoder1_cw.pressed = false;
         encoder1_cw.time = (timer_read() | 1);
         action_exec(encoder1_cw);
