@@ -26,9 +26,6 @@ enum layer_number {
     _LOWER = 1,
     _RAISE = 2,
     _TRACKBALL = 3,
-    _Layer4 = 4,
-    _Layer5 = 5,
-    _Layer6 = 6
 };
 
 
@@ -85,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
   [_TRACKBALL] = LAYOUT(
   //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,                                       SCRL_TO,  CPI_SW, SCRL_SW, ROT_L15, ROT_R15, XXXXXXX,
+      QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,                                       SCRL_TO,  CPI_SW, SCRL_SW, ROT_L15, ROT_R15, XXXXXXX,
   //|-------------------------------------------------------|                                   |-------------------------------------------------------|
       XXXXXXX, XXXXXXX, RGB_VAI, RGB_SAI, RGB_HUI, RGB_MOD,                                       SCRL_MO, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|-------------------------------------------------------|                                   |-------------------------------------------------------|
@@ -93,42 +90,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-------------------------------------------------------|                                   |-------------------------------------------------------|
                         KC_LGUI, DEL_ALT, KC_TRNS,  KC_SPC,   KC_MS_BTN1,             KC_MS_BTN2,  KC_ENT, RS_HENK, KC_BSPC,  KC_ESC,
                                                                  KC_PGUP, KC_MS_BTN3,  KC_PGDN, XXXXXXX, XXXXXXX, XXXXXXX
-                                                            //`--------------'  `--------------'
-    ),
-  [_Layer4] = LAYOUT(
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-                        XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,             XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,
-                                                                 XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
-                                                            //`--------------'  `--------------'
-    ),
-  [_Layer5] = LAYOUT(
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-                        XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,             XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,
-                                                                 XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
-                                                            //`--------------'  `--------------'
-    ),
-  [_Layer6] = LAYOUT(
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|-------------------------------------------------------|                                   |-------------------------------------------------------|
-                        XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,             XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,
-                                                                 XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
                                                             //`--------------'  `--------------'
     )
 };
@@ -190,18 +151,6 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         break;
     case _TRACKBALL:
         rgblight_sethsv_range(HSV_GREEN, 0, 2);
-        cocot_set_scroll_mode(false);
-        break;
-    case _Layer4:
-        rgblight_sethsv_range(HSV_YELLOW, 0, 2);
-        cocot_set_scroll_mode(false);
-        break;
-    case _Layer5:
-        rgblight_sethsv_range(HSV_CYAN, 0, 2);
-        cocot_set_scroll_mode(false);
-        break;
-    case _Layer6:
-        rgblight_sethsv_range(HSV_ORANGE, 0, 2);
         cocot_set_scroll_mode(false);
         break;
     default:
